@@ -1,0 +1,40 @@
+{
+    "baseUrl": "http://xxxxx-test.epicorcommerce.com/",
+    "loginUrl": "b2b/portal/login/",
+    "redirectUrl": "customer/account/",
+    "logoutPages": {
+        "Login Page": "b2b/portal/login/",
+        "Home": "",
+        "Category Level 1": "products/cargo-management.html",
+        "Category Level 2": "products/receiver-hitches/rear-mounted.html",
+        "Search Result Page": "catalogsearch/result/?q=hitch",
+        "Product Detail Page": "47090001-dmi-cush-n-combo-hitch.html",
+        "Brands": "brands",
+        "Brand Products Page": "brand/blue-ox",
+        "About Us": "about-us"
+    },
+    "loginPages": {
+        "Home": "",
+        "Category Level 1": "products/cargo-management.html",
+        "Category Level 2": "products/receiver-hitches/rear-mounted.html",
+        "Search Result Page": "catalogsearch/result/?q=hitch",
+        "Product Detail Page": "47090001-dmi-cush-n-combo-hitch.html",
+        "Brands": "brands",
+        "Brand Products Page": "brand/blue-ox",
+        "About Us": "about-us",
+        "Shopping Cart": "checkout/cart",
+        "Checkout": "checkout/index",
+        "Wishlist": "wishlist",
+        "Compare": "catalog/product_compare/index",
+        "CustomerConnect Dashboard": "customerconnect/dashboard/",
+        "CustomerConnect Information": "customerconnect/account/",
+        "CustomerConnect Orders": "customerconnect/orders/",
+        "CustomerConnect Invoices": "customerconnect/invoices/",
+        "CustomerConnect Payments": "customerconnect/payments/",
+        "CustomerConnect Shipments": "customerconnect/shipments/",
+        "CustomerConnect RMAs": "customerconnect/rmas/",
+        "CustomerConnect SKUs": "customerconnect/skus/"
+    },
+    "username": "sandy.tu@silksoftware.com",
+    "password": "thisismypassword"
+}

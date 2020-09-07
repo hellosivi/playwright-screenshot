@@ -4,6 +4,7 @@
   "description": "This script will take screenshots of your website programmatically by using Playwright in different viewpoints based on a configuration file.",
   "main": "screenshot.js",
   "dependencies": {
+    "minimist": "^1.2.5",
     "playwright": "^1.3.0"
   },
   "devDependencies": {},

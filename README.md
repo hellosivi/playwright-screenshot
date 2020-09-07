@@ -15,6 +15,9 @@ This script will take screenshots of your website programmatically by using Play
 - [Clone the repository from GIT](https://github.com/fztu/test-playwright.git). 
 - Run ```npm install``` to install the node modules.
 - Copy the example folder to your project (abc) folder.
-- Update the abc/config.json accordingly
-- Run ```node screenshot.js abc``` to take the screenshots
-- Screenshots are saved in abc/screenshots folder
+- Update the ```projects/abc/config.json``` accordingly
+- Screenshots will be saved in ```projects/abc/screenshots/``` folder
+- Usages:
+  - Take screenshots for all viewpoints defined in screenshot.js: ```node screenshot.js -p abc```
+  - Take screenshots by emulating a supported device only: ```node screenshot.js -p abc -d "iPad Mini"```
+  - Take screenshots for a sepecified viewpoint: ```node screenshot.js -p abc -w 1900 -h 1200```

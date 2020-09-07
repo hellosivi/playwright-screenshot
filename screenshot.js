@@ -59,6 +59,7 @@ const takeScreenshot = async function (page, title, url, viewpoints, dir, browse
     for (let viewpoint of viewpoints) {
         await page.setViewportSize(viewpoint);
         filename = dir + state + '-' + title + '-' + browserType + '-' + viewpoint.width + '-' + viewpoint.height + '.png';
+        filename = filename.replace(/ /g, "_");
         await page.screenshot({ path: filename, fullPage: true });
         console.log(filename);
     }
@@ -69,6 +70,7 @@ const takeScreenshotByDevice = async function (page, title, url, device, dir, st
     let filename = "";
     await page.goto(url, { waitUntil: 'networkidle' });
     filename = dir + state + '-' + title + '-' + device + '.png';
+    filename = filename.replace(/ /g,"_");
     await page.screenshot({ path: filename, fullPage: true });
     console.log(filename);
     return filename;
@@ -116,8 +118,7 @@ if (projectName) {
             if (emulator) {
                 const browser = await playwright['chromium'].launch();
                 const context = await browser.newContext({
-                    viewport: emulator.viewport,
-                    userAgent: emulator.userAgent
+                    ...emulator,
                 });
                 let page = await context.newPage();
 
@@ -154,7 +155,8 @@ if (projectName) {
                 }
                 await browser.close();
             } else {
-                console.log(device + " is not supported.");
+                console.log(device + " is not supported. Supported devices: ");
+                console.log(Object.keys(playwright.devices));
             }
         } else {
             for (let browserType of browserTypes) {

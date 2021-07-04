@@ -5,7 +5,7 @@ const times = 3;
 
 // console.log(playwright.devices);
 
-// const browserTypes = ['chromium', 'firefox','webkit'];
+// const browserTypes = ['chromium', 'firefox', 'webkit'];
 const browserTypes = ['chromium'];
 const browserArgs = [
     '--disable-gpu',
@@ -55,12 +55,16 @@ if (width && height) {
 
 const takeScreenshot = async function (page, title, url, viewpoints, dir, browserType, state) {
     let filename = "";
+    console.time("goto")
     await page.goto(url, { waitUntil: 'networkidle' });
+    console.timeEnd("goto")
     for (let viewpoint of viewpoints) {
         await page.setViewportSize(viewpoint);
         filename = dir + state + '-' + title + '-' + browserType + '-' + viewpoint.width + '-' + viewpoint.height + '.png';
         filename = filename.replace(/ /g, "_");
+        console.time("screenshot")
         await page.screenshot({ path: filename, fullPage: true });
+        console.timeEnd("screenshot")
         console.log(filename);
     }
     return filename;
@@ -135,24 +139,28 @@ if (projectName) {
                         }
                     }
                 }
-                let cookies = await login(page, baseUrl + loginUrl, baseUrl + redirectUrl, username, password);
-                // console.log(cookies);
-                if (cookies) {
-                    for (let p in loginPages) {
-                        let tried = 0;
-                        for (tried = 0; tried < times; tried++) {
-                            try {
-                                await takeScreenshotByDevice(page, p, baseUrl + loginPages[p], device, dir, 'login');
-                                tried = times;
-                            } catch (err) {
-                                console.log(err.message);
-                                tried += 1;
+
+                if(loginUrl) {
+                    let cookies = await login(page, baseUrl + loginUrl, baseUrl + redirectUrl, username, password);
+                    // console.log(cookies);
+                    if (cookies) {
+                        for (let p in loginPages) {
+                            let tried = 0;
+                            for (tried = 0; tried < times; tried++) {
+                                try {
+                                    await takeScreenshotByDevice(page, p, baseUrl + loginPages[p], device, dir, 'login');
+                                    tried = times;
+                                } catch (err) {
+                                    console.log(err.message);
+                                    tried += 1;
+                                }
                             }
                         }
+                    } else {
+                        console.log("Login failed.")
                     }
-                } else {
-                    console.log("Login failed.")
                 }
+
                 await browser.close();
             } else {
                 console.log(device + " is not supported. Supported devices: ");
@@ -160,22 +168,29 @@ if (projectName) {
             }
         } else {
             for (let browserType of browserTypes) {
+                console.time("launch")
                 let browser = await playwright[browserType].launch({
                     args: browserArgs
                     // , headless: false, slowMo: 250
                 });
+                console.timeEnd("launch")
+
                 let context = await browser.newContext({
                     userAgent: userAgent
                 });
 
+                console.time("newPage")
                 let page = await context.newPage();
+                console.timeEnd("newPage")
 
                 for (let p in logoutPages) {
                     // continue;
                     let tried = 0;
                     for (tried = 0; tried < times; tried++) {
                         try {
+                            console.time("takeScreenshot")
                             await takeScreenshot(page, p, baseUrl + logoutPages[p], viewpoints, dir, browserType, 'logout');
+                            console.timeEnd("takeScreenshot")
                             tried = times;
                         } catch (err) {
                             console.log(err.message);
@@ -183,23 +198,26 @@ if (projectName) {
                         }
                     }
                 }
-                let cookies = await login(page, baseUrl + loginUrl, baseUrl + redirectUrl, username, password);
-                // console.log(cookies);
-                if (cookies) {
-                    for (let p in loginPages) {
-                        let tried = 0;
-                        for (tried = 0; tried < times; tried++) {
-                            try {
-                                await takeScreenshot(page, p, baseUrl + loginPages[p], viewpoints, dir, browserType, 'login');
-                                tried = times;
-                            } catch (err) {
-                                console.log(err.message);
-                                tried += 1;
+
+                if(loginUrl) {
+                    let cookies = await login(page, baseUrl + loginUrl, baseUrl + redirectUrl, username, password);
+                    // console.log(cookies);
+                    if (cookies) {
+                        for (let p in loginPages) {
+                            let tried = 0;
+                            for (tried = 0; tried < times; tried++) {
+                                try {
+                                    await takeScreenshot(page, p, baseUrl + loginPages[p], viewpoints, dir, browserType, 'login');
+                                    tried = times;
+                                } catch (err) {
+                                    console.log(err.message);
+                                    tried += 1;
+                                }
                             }
                         }
+                    } else {
+                        console.log("Login failed.")
                     }
-                } else {
-                    console.log("Login failed.")
                 }
                 await browser.close();
             }
